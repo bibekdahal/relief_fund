@@ -1,8 +1,15 @@
 from django.contrib import admin
-from mainapp.models import FundType, FundState, Fund, Place, Provider
+from mainapp.models import ItemType, Item, Fund, Place, Provider
 
-admin.site.register(FundType)
-admin.site.register(FundState)
-admin.site.register(Fund)
+
+class ItemInline(admin.StackedInline):
+    model = Item
+    extra = 3
+
+class FundAdmin(admin.ModelAdmin):
+    inlines = [ItemInline]
+
+admin.site.register(ItemType)
+admin.site.register(Fund, FundAdmin)
 admin.site.register(Place)
 admin.site.register(Provider)
