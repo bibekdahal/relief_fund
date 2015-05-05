@@ -25,7 +25,7 @@ class Place(models.Model):
 class Item(models.Model):
     type = models.ForeignKey(ItemType)
     amount = models.IntegerField(default=0)
-    items = models.ForeignKey("mainapp.Fund")
+    fund = models.ForeignKey("mainapp.Fund")
 
     def __str__(self):
         return str(self.amount) + " of " + str(self.type)
