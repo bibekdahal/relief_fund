@@ -54,6 +54,7 @@ class FundView(View):
             amount = int(request.POST.get(itemtype.name+"_amount"))
             if amount>0:
                 item = Item(type=itemtype, amount=amount, fund=fund)
+                item.save()
 
         return HttpResponseRedirect(reverse('mainapp:fund'))
 

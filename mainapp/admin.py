@@ -10,6 +10,7 @@ class FundAdmin(admin.ModelAdmin):
     inlines = [ItemInline]
 
 admin.site.register(ItemType)
+admin.site.register(Item)
 admin.site.register(Fund, FundAdmin)
 admin.site.register(Place)
 admin.site.register(Provider)
