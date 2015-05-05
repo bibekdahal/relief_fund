@@ -10,7 +10,7 @@
     <form action="{% url 'mainapp:fund' %}" method="get">
     <input type="hidden" name="place" value="">
     <input type="hidden" name="lat" value="">
-    <input type="hidden" name="lng" value="">
+    <input type="hidden" name="lon" value="">
     <button class="btn waves-effect waves-light" type="submit">
     <i class="mdi-content-add"></i>
     New Fund
@@ -112,7 +112,7 @@
             
                         document.forms[0].place.value = place;
                         document.forms[0].lat.value = location.lat();
-                        document.forms[0].lng.value = location.lng();
+                        document.forms[0].lon.value = location.lng();
                     }
             });
 
