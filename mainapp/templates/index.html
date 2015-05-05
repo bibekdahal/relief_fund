@@ -64,6 +64,8 @@
 
             google.maps.event.addListener(marker, 'click', function(event) {
                 displayInfo(fund, place);
+                if (newMarker != null)
+                    newMarker.setVisible(false);
                 NewMarker(event.latLng);
             });
             return marker;
@@ -73,14 +75,7 @@
         var map;
         var newMarker;
         function NewMarker(location) {
-            if (newMarker == null)
-                newMarker = new google.maps.Marker({
-                    position: location,
-                    map: map
-                });
-            else
-                newMarker.setPosition(location);
-    
+   
             nm = document.getElementById("newMarker");
             nm.style.visibility = "visible";
 
@@ -92,6 +87,11 @@
                     if (results[1])
                         mi.innerHTML +=  ": " + results[0]["address_components"][1]["long_name"];
             });
+
+            window.setTimeout(function() {
+                map.panTo(location);
+                map.setZoom(19);
+            }, 500);
         }
 
         function initialize() {
@@ -105,6 +105,14 @@
 
             google.maps.event.addListener(map, 'click', function(event){
                 loc = event.latLng;
+                if (newMarker == null)
+                    newMarker = new google.maps.Marker({
+                        position: loc,
+                        map: map
+                    });
+                else
+                    newMarker.setPosition(loc);
+                newMarker.setVisible(true);
                 NewMarker(loc);
             });
 
