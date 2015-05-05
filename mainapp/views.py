@@ -24,13 +24,13 @@ class FundView(View):
 
         place = request.GET.get('place')
         lat = request.GET.get('lat')
-        lon = request.GET.get('lon')
+        lon = request.GET.get('lng')
         if place:
             context['place'] = place
         if lat:
-            context['lat'] = int(lat)
+            context['lat'] = float(lat)
         if lon:
-            context['lon'] = int(lon)
+            context['lon'] = float(lon)
         return render(request, 'fund.html', context)
 
     def post(self, request):
