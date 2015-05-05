@@ -72,8 +72,8 @@
                         <input type="number" name="{{itemtype}}_amount" value="0" min="0" required>
                     </div>
                     <div class="input-field col s2 m1">
-                        <input id="{{forloopcounter0}}" type="checkbox" name="{{itemtype}}" value="true" />
-                        <label for="{{forloopcounter0}}"></label>
+                        <input id="{{forloop.counter0}}" type="checkbox" name="{{itemtype}}" value="true" />
+                        <label for="{{forloop.counter0}}"></label>
                     </div>
                 </div>
             {% endfor %}
