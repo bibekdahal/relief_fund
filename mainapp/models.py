@@ -24,11 +24,11 @@ class Place(models.Model):
 
 class Item(models.Model):
     type = models.ForeignKey(ItemType)
-    amount = models.IntegerField(default=0)
+    remarks = models.TextField(blank=True, default="")
     fund = models.ForeignKey("mainapp.Fund")
 
     def __str__(self):
-        return str(self.amount) + " of " + str(self.type)
+        return str(self.type) + ": " + str(self.remarks)
 
 class Fund(models.Model):
     provider = models.ForeignKey(Provider, null=True, blank=True, default=None)

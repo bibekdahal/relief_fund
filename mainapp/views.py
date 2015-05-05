@@ -53,8 +53,8 @@ class FundView(View):
         for itemtype in itemtype_list:
             itemtype_check = request.POST.get(itemtype.name)
             if itemtype_check:
-                amount = int(request.POST.get(itemtype.name+"_amount"))
-                item = Item(type=itemtype, amount=amount, fund=fund)
+                remarks = request.POST.get(itemtype.name+"_remarks")
+                item = Item(type=itemtype, remarks=remarks, fund=fund)
                 item.save()
 
         return HttpResponseRedirect(reverse('mainapp:fund'))

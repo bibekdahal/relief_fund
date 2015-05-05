@@ -34,8 +34,8 @@
             info += "</b><br/><br/>";
             for (var item of fund.items) {
                  info += item.type;
-                 if (item.amount > 0)
-                     info += ": " + item.amount;
+                 if (item.remarks != "")
+                     info += ": " + item.remarks;
                  info += "<br/>";
             }
             info += "</p>";
@@ -90,7 +90,7 @@
 
             window.setTimeout(function() {
                 map.panTo(location);
-                map.setZoom(19);
+                //map.setZoom(19);
             }, 500);
         }
 
@@ -129,7 +129,7 @@
                                 state: {{fund.state}},
                                 items: [
                                 {% for item in fund.item_set.all %}
-                                    { type: "{{item.type.name}}", amount: {{item.amount}} }{% if not forloop.last %}, {% endif %}
+                                    { type: "{{item.type.name}}", remarks: "{{item.remarks}}" }{% if not forloop.last %}, {% endif %}
                                 {% endfor %}
                                 ]
                             }{% if not forloop.last %}, {% endif %}
