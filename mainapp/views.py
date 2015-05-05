@@ -22,7 +22,6 @@ class FundView(View):
         itemtypes = ItemType.objects.all()
         context['itemtypes'] = itemtypes
 
-<<<<<<< HEAD
         if not fund_id:
             place = request.GET.get('place')
             lat = request.GET.get('lat')
@@ -30,26 +29,14 @@ class FundView(View):
             if place:
                 context['place'] = place
             if lat:
-                context['lat'] = int(lat)
+                context['lat'] = float(lat)
             if lon:
-                context['lon'] = int(lon)
+                context['lon'] = float(lon)
             return render(request, 'fund.html', context)
         else:
             fund = get_object_or_404(Fund, pk=fund_id)
             context['fund'] = fund
             return render(request, 'fund.html', context)
-=======
-        place = request.GET.get('place')
-        lat = request.GET.get('lat')
-        lon = request.GET.get('lng')
-        if place:
-            context['place'] = place
-        if lat:
-            context['lat'] = float(lat)
-        if lon:
-            context['lon'] = float(lon)
-        return render(request, 'fund.html', context)
->>>>>>> 2af89ced1fbbb001598efc156d284c965f733f21
 
     def post(self, request):
         context = {}
