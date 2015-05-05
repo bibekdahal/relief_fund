@@ -3,7 +3,7 @@
 {% block body %}
 <form method="POST" action="{% url 'mainapp:fund' %}">
     {% csrf_token %}
-
+        <input type="hidden" name="fund_id" value="{% if fund %} {{ fund.id }} {% endif %}" />
         <div id="place" class="card-panel">
             <div class="row">
                 <div class="col s12">
