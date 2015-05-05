@@ -14,21 +14,28 @@
                     <i class="mdi-maps-navigation prefix"></i>
                     <label for="place_name" class="active">Name</label>
                     <input placeholder="Name" id="place_name" type="text" name="place"
-                        value = "{% if place %} {{ place }} {% endif %}"
+                    value = "{% if place %} {{ place }}
+                            {% elif fund %} {{ fund.place }}
+                            {% endif %}"
                     required>
                 </div>
             </div><div class="row">
                 <div class="input-field col s12">
                     <i class="mdi-maps-navigation prefix"></i>
                     <label for="place_district" class="active">District</label>
-                    <input placeholder="District" id="place_district" type="text" name="district" required>
+                    <input placeholder="District" id="place_district" type="text" name="district"
+                    value = "{% if fund %} {{ fund.place.district }}
+                            {% endif %}"
+                    required>
                 </div>
             </div><div class="row">
                 <div class="input-field col s12">
                     <i class="mdi-maps-navigation prefix"></i>
                     <label for="lat" class="active">Latitude</label>
                     <input id="lat" type="number" step="0.00000000001" placeholder="Latitude" name="latitude" 
-                        value = {% if lat %} {{ lat }} {% endif %}
+                        value = {% if lat %} {{ lat }}
+                                {% elif fund %} {{ fund.place.latitude }}
+                                {% endif %}
                     required>
                 </div>
             </div><div class="row">
@@ -36,7 +43,9 @@
                     <i class="mdi-maps-navigation prefix"></i>
                     <label for="lng" class="active">Longitude</label>
                     <input id="lng" type="number" step="0.00000000001" placeholder="Longitude" name="longitude" 
-                        value = {% if lon %} {{ lon }} {% endif %}
+                        value = {% if lon %} {{ lon }}
+                                {% elif fund %} {{ fund.place.longitude }}
+                                {% endif %}
                     required>
                 </div>
             </div>
@@ -89,14 +98,20 @@
                 <div class="input-field col s12">
                     <i class="mdi-action-account-circle prefix"></i>
                     <label for="provider_name" class="active">Name</label>
-                    <input placeholder="Name" id="provider_name" type="text" name="provider_name" required>
+                    <input placeholder="Name" id="provider_name" type="text" name="provider_name" 
+                        value="{% if fund %} {{ fund.provider }}
+                                {% endif %}"
+                    required>
                 </div>
             </div>
             <div class="row">
                 <div class="input-field col s12">
                     <i class="mdi-communication-phone prefix"></i>
                     <label for="provider_phone" class="active">Phone</label>
-                    <input placeholder="Phone" id="provider_phone" type="number" name="provider_phone" min="0" required>
+                    <input placeholder="Phone" id="provider_phone" type="number" name="provider_phone" min="0" 
+                        value = "{% if fund %} {{ fund.provider.phone }}
+                                {% endif %}"
+                    required>
                 </div>
             </div>
         </div>
