@@ -5,9 +5,14 @@
     <div id="map" style="width:100%; height:70%;"> </div>
     <br/>
     <div id="newMarker" style="visibility: hidden;">
-    <button class="btn waves-effect waves-light" type="submit" name="action">New Fund
+    <form action="{% url 'mainapp:fund' %}" method="get">
+    <input type="hidden" name="place" value="">
+    <input type="hidden" name="lat" value="">
+    <input type="hidden" name="lng" value="">
+    <button class="btn waves-effect waves-light" type="submit">New Fund
     <i class="mdi-content-add"></i>
     </button>
+    </form>
     at <b id="markerinfo"></b>
     </div>
     
@@ -82,10 +87,18 @@
             mi = document.getElementById("markerinfo");
             mi.innerHTML = location.toString();
             
+
+
             geocoder.geocode({'latLng': location}, function(results, status) {
                 if (status == google.maps.GeocoderStatus.OK)
-                    if (results[1])
-                        mi.innerHTML +=  ": " + results[0]["address_components"][1]["long_name"];
+                    if (results[0]) {
+                        place = results[0]["address_components"][1]["long_name"];
+                        mi.innerHTML +=  ": " + place;
+            
+                        document.forms[0].place.value = place;
+                        document.forms[0].lat.value = location.lat();
+                        document.forms[0].lng.value = location.lng();
+                    }
             });
 
             window.setTimeout(function() {
