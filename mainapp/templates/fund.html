@@ -3,6 +3,13 @@
 {% block body %}
 <form method="POST" action="{% url 'mainapp:fund' fund_id=fund.id %}">
     {% csrf_token %}
+
+        <div class="card-panel">
+            {% for item in items %}
+                {{ item }}
+            {% endfor %}
+        </div>
+
         <div id="place" class="card-panel">
             <div class="row">
                 <div class="col s12">
@@ -64,7 +71,9 @@
                     </div>
                     <div class="input-field col s10 m11">
                         <label class="active">{{ itemtype }}</label>
-                        <input placeholder="Remarks" type="text" name="{{itemtype}}_remarks">
+                        <input placeholder="Remarks" type="text" name="{{itemtype}}_remarks"
+                            value = "{% for item in items %}{% if item.type.name == itemtype.name %}{{ item.remarks }}{% endif %}{% endfor %}"
+                        />
                     </div>
                 </div>
             {% endfor %}
