@@ -12,10 +12,12 @@ class Index(View):
         context = {}
         return render(request, 'index.html', context)
 
-class Fund(View):
+class FundView(View):
 
     def get(self, request):
         context = {}
+        itemtypes = ItemType.objects.all()
+        context['itemtypes'] = itemtypes
         return render(request, 'fund.html', context)
 
     def post(self, request):
@@ -35,6 +37,8 @@ class Fund(View):
         if not place:
             place = Place(name=place_name, district=district_name, latitude=latitude, longitude=longitude)
             place.save()
+
+        itemtype_list = ItemType.objects.all()
 
         return HttpResponseRedirect(reverse('mainapp:fund'))
 
