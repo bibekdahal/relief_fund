@@ -1,9 +1,8 @@
 {% extends 'base.html' %}
 
 {% block body %}
-<form method="POST" action="{% url 'mainapp:fund' %}">
+<form method="POST" action="{% url 'mainapp:fund' fund_id=fund.id %}">
     {% csrf_token %}
-        <input type="hidden" name="fund_id" value="{% if fund %} {{ fund.id }} {% endif %}" />
         <div id="place" class="card-panel">
             <div class="row">
                 <div class="col s12">
@@ -109,8 +108,8 @@
                     <i class="mdi-communication-phone prefix"></i>
                     <label for="provider_phone" class="active">Phone</label>
                     <input placeholder="Phone" id="provider_phone" type="number" name="provider_phone" min="0" 
-                        value = "{% if fund %} {{ fund.provider.phone }}
-                                {% endif %}"
+                        value = {% if fund %} {{ fund.provider.phone }}
+                                {% endif %}
                     required>
                 </div>
             </div>

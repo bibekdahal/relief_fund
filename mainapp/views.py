@@ -38,7 +38,9 @@ class FundView(View):
             context['fund'] = fund
             return render(request, 'fund.html', context)
 
-    def post(self, request):
+    def post(self, request, fund_id=None):
+        if fund_id:
+            return HttpResponse("hello")
         context = {}
         provider_name = request.POST.get('provider_name')
         provider_phone = request.POST.get('provider_phone')
