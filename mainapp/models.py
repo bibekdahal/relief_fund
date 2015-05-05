@@ -34,5 +34,12 @@ class Fund(models.Model):
     state = models.ForeignKey(FundState)
     place = models.ForeignKey(Place)
     amount = models.IntegerField()
-
+    
+    UNREVIEWED = 0
+    ACCEPTED = 1
+    REVIEW_STATES = (
+        (UNREVIEWED, 'Unreviewed'),
+        (ACCEPTED, 'Accepted'),
+    )
+    review_state = models.IntegerField(default=UNREVIEWED, choices=REVIEW_STATES)
 
