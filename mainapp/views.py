@@ -15,7 +15,7 @@ class Index(View):
         context = {'funds':funds, 'places':places}
         return render(request, 'index.html', context)
 
-class Fund(View):
+class FundView(View):
 
     def get(self, request):
         context = {}
