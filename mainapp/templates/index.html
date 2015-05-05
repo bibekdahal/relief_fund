@@ -3,6 +3,14 @@
 
 {% block body %}
     <div id="map" style="width:100%; height:70%;"> </div>
+    <br/>
+    <div id="newMarker" style="visibility: hidden;">
+    <button class="btn waves-effect waves-light" type="submit" name="action">New Fund
+    <i class="mdi-content-add"></i>
+    </button>
+    at <b id="markerinfo"></b>
+    </div>
+
     <div id="details" style="width:100%"></div>
 {% endblock %}
 
@@ -56,6 +64,21 @@
             });
             return marker;
         }
+        
+        var geocoder;
+        function NewMarker(location) {
+            nm = document.getElementById("newMarker");
+            nm.style.visibility = "visible";
+
+            mi = document.getElementById("markerinfo");
+            mi.innerHTML = location.toString();
+            
+            geocoder.geocode({'latLng': location}, function(results, status) {
+                if (status == google.maps.GeocoderStatus.OK)
+                    if (results[1])
+                        mi.innerHTML +=  ": " + results[0]["address_components"][1]["long_name"];
+            });
+        }
 
         function initialize() {
             var mapProperties = {
@@ -64,7 +87,21 @@
                 mapTypeId:google.maps.MapTypeId.ROADMAP
             };
             var map = new google.maps.Map(document.getElementById("map"), mapProperties);
-            
+            geocoder = new google.maps.Geocoder();
+
+            var newMarker;
+            google.maps.event.addListener(map, 'click', function(event){
+                loc = event.latLng;
+                if (newMarker == null)
+                    newMarker = new google.maps.Marker({
+                        position: loc,
+                        map: map
+                    });
+                else
+                    newMarker.setPosition(loc);
+                NewMarker(loc);
+            });
+
             places = [
                 {% for place in places %}
                 {% if place.fund_set.count > 0 %}
