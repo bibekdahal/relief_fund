@@ -9,8 +9,16 @@
     <input type="hidden" name="place" value="">
     <input type="hidden" name="lat" value="">
     <input type="hidden" name="lng" value="">
-    <button class="btn waves-effect waves-light" type="submit">New Fund
+    <button class="btn waves-effect waves-light" type="submit">
     <i class="mdi-content-add"></i>
+    New Fund
+    </button>
+    </form>
+
+    <form method="get" id="updateform" style="visibility:hidden;">
+    <button class="btn waves-effect waves-light" type="submit">
+    <i class="mdi-content-add"></i>
+    Update Fund
     </button>
     </form>
     at <b id="markerinfo"></b>
@@ -72,6 +80,8 @@
                     newMarker.setVisible(false);
                 NewMarker(event.latLng);
                 displayInfo(fund, place);
+                document.getElementById("updateform").style.visibility = "visible";
+                document.getElementById("updateform").action = "{% url 'mainapp:fund' %}"+fund.id;
             });
             return marker;
         }
@@ -107,6 +117,7 @@
             }, 500);
 
             document.getElementById("details").innerHTML = "";
+            document.getElementById("updateform").style.visibility = "hidden";
         }
 
         function initialize() {
@@ -140,6 +151,7 @@
                         funds: [
                             {% for fund in place.fund_set.all %}
                             {
+                                id: {{ fund.id }},
                                 provider: "{{fund.provider.name}}",
                                 state: {{fund.state}},
                                 items: [
