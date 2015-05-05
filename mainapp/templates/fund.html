@@ -66,14 +66,13 @@
             </div>
             {% for itemtype in itemtypes %}
                 <div class="row">
+                    <div class="input-field col s2 m1">
+                        <input id="{{forloop.counter0}}" type="checkbox" name="{{itemtype}}" value="true" />
+                        <label for="{{forloop.counter0}}"></label>
+                    </div>
                     <div class="input-field col s10 m11">
-                        <i class="mdi-image-healing prefix"></i>
                         <label class="active">{{ itemtype }}</label>
                         <input type="number" name="{{itemtype}}_amount" value="0" min="0" required>
-                    </div>
-                    <div class="input-field col s2 m1">
-                        <input id="{{forloopcounter0}}" type="checkbox" name="{{itemtype}}" value="true" />
-                        <label for="{{forloopcounter0}}"></label>
                     </div>
                 </div>
             {% endfor %}
