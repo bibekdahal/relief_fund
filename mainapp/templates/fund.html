@@ -19,7 +19,7 @@
                 <div class="input-field col s12">
                     <i class="mdi-communication-phone prefix"></i>
                     <label>Phone</label>
-                    <input id="provider_phone" type="number" name="provider_phone" required>
+                    <input id="provider_phone" type="number" name="provider_phone" min="0" required>
                 </div>
 
             </div>
@@ -67,9 +67,26 @@
                     <div class="input-field col s12">
                         <i class="mdi-image-healing"></i>
                         <label>{{ itemtype }}</label>
-                        <input type="number" name="{{itemtype}}_amount" value="0" required>
+                        <input type="number" name="{{itemtype}}_amount" value="0" min="0" required>
                     </div>
                 {% endfor %}
+            </div>
+        </div>
+
+        <div id="state" class="card-panel">
+            <div class="row">
+                <div class="col s12">
+                    <h6>FundState</h6>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s12">
+                    <select class="browser-default" name="fundstate">
+                        <option value="0">PROVIDED</option>
+                        <option value="1">NEEDED</option>
+                        <option value="2">URGENTLY_NEEDED</option>
+                    </select>
+                </div>
             </div>
         </div>
 
