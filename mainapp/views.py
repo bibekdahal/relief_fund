@@ -21,6 +21,16 @@ class FundView(View):
         context = {}
         itemtypes = ItemType.objects.all()
         context['itemtypes'] = itemtypes
+
+        place = request.GET.get('place')
+        lat = request.GET.get('lat')
+        lon = request.GET.get('lon')
+        if place:
+            context['place'] = place
+        if lat:
+            context['lat'] = int(lat)
+        if lon:
+            context['lon'] = int(lon)
         return render(request, 'fund.html', context)
 
     def post(self, request):
