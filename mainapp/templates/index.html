@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load staticfiles %}
 
 {% block body %}
     <div id="map" style="width:100%; height:70%;"> </div>
@@ -6,7 +7,34 @@
 
 {% block footer %}
     <script src="http://maps.googleapis.com/maps/api/js"></script>
+    <script type="text/javascript" src="http://google-maps-utility-library-v3.googlecode.com/svn/trunk/markerclusterer/src/markerclusterer.js"></script>
     <script>
+        function createMarker(map, fund, place) {
+            color = "yellow";
+            if (fund.state == 1) color = "green";
+            else if (fund.state == 2) color = "red";
+            var marker = new google.maps.Marker({
+                position:new google.maps.LatLng(place.latitude, place.longitude),
+                icon:"{% static 'images' %}/" + color + ".png",
+            });
+            
+            var info = "<b>" + place.name + "</b>";
+            var infoWindow = new google.maps.InfoWindow({
+                content: info
+            });
+            google.maps.event.addListener(marker, 'mouseover', function() {
+                infoWindow.open(map, this);
+            });
+
+            google.maps.event.addListener(marker, 'mouseout', function() {
+                infoWindow.close();
+            });
+
+            google.maps.event.addListener(marker, 'click', function() {
+                // display info
+            });
+            return marker;
+        }
         function initialize() {
             var mapProperties = {
                 center: new google.maps.LatLng(27.7, 85.33),
@@ -14,13 +42,38 @@
                 mapTypeId:google.maps.MapTypeId.ROADMAP
             };
             var map = new google.maps.Map(document.getElementById("map"), mapProperties);
+            
+            places = [
+                {% for place in places %}
+                {% if place.fund_set.count > 0 %}
+                    {
+                        name:"{{ place.name }}", 
+                        latitude:{{ place.latitude }}, longitude:{{ place.longitude }},
+                        funds: [
+                            {% for fund in place.fund_set.all %}
+                            {
+                                provider: "{{fund.provider.name}}",
+                                state: {{fund.state}}
+                            }
+                            {% if not forloop.last %}, {% endif %}
+                            {% endfor %}
+                        ]
+                    }
+                    {% if not forloop.last %}, {% endif %}
+                {% endif %}
+                {% endfor %}
+            ];
+            
+            for (var place of places) {
+                markers = []
+                for (var fund of place.funds) {
+                    markers.push(createMarker(map, fund, place));
+                }
+                var mc = new MarkerClusterer(map, markers);
+            }
         }
     
         google.maps.event.addDomListener(window, 'load', initialize);
     
-        $(document).ready( function()
-        {
-            //alert("hello");
-        });
     </script>
 {% endblock %}

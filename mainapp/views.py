@@ -9,6 +9,9 @@ from mainapp.models import *
 class Index(View):
 
     def get(self,request):
-        context = {}
+        funds = Fund.objects.all()
+        places = Place.objects.all()
+
+        context = {'funds':funds, 'places':places}
         return render(request, 'index.html', context)
 
