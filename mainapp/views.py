@@ -51,8 +51,9 @@ class FundView(View):
 
         itemtype_list = ItemType.objects.all()
         for itemtype in itemtype_list:
-            amount = int(request.POST.get(itemtype.name+"_amount"))
-            if amount>0:
+            itemtype_check = request.POST.get(itemtype.name)
+            if itemtype_check:
+                amount = int(request.POST.get(itemtype.name+"_amount"))
                 item = Item(type=itemtype, amount=amount, fund=fund)
                 item.save()
 
