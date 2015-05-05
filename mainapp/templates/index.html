@@ -32,13 +32,15 @@
                 info += "Urgently Needed";
             info += "</b><br/><br/>";
             for (var item of fund.items) {
-                if (item.amount > 0)
-                    info += item.type + ": " + item.amount + "<br/>";
+                 info += item.type;
+                 if (item.amount > 0)
+                     info += ": " + item.amount;
+                 info += "<br/>";
             }
             info += "</p>";
             document.getElementById("details").innerHTML = info;
         }
-        function createMarker(map, fund, place) {
+        function createMarker(fund, place) {
             color = "yellow";
             if (fund.state == 1) color = "green";
             else if (fund.state == 2) color = "red";
@@ -59,14 +61,25 @@
                 infoWindow.close();
             });
 
-            google.maps.event.addListener(marker, 'click', function() {
+            google.maps.event.addListener(marker, 'click', function(event) {
                 displayInfo(fund, place);
+                NewMarker(event.latLng);
             });
             return marker;
         }
         
         var geocoder;
+        var map;
+        var newMarker;
         function NewMarker(location) {
+            if (newMarker == null)
+                newMarker = new google.maps.Marker({
+                    position: location,
+                    map: map
+                });
+            else
+                newMarker.setPosition(location);
+    
             nm = document.getElementById("newMarker");
             nm.style.visibility = "visible";
 
@@ -86,19 +99,11 @@
                 zoom:10,
                 mapTypeId:google.maps.MapTypeId.ROADMAP
             };
-            var map = new google.maps.Map(document.getElementById("map"), mapProperties);
+            map = new google.maps.Map(document.getElementById("map"), mapProperties);
             geocoder = new google.maps.Geocoder();
 
-            var newMarker;
             google.maps.event.addListener(map, 'click', function(event){
                 loc = event.latLng;
-                if (newMarker == null)
-                    newMarker = new google.maps.Marker({
-                        position: loc,
-                        map: map
-                    });
-                else
-                    newMarker.setPosition(loc);
                 NewMarker(loc);
             });
 
@@ -129,7 +134,7 @@
             for (var place of places) {
                 markers = []
                 for (var fund of place.funds) {
-                    markers.push(createMarker(map, fund, place));
+                    markers.push(createMarker(fund, place));
                 }
                 var mc = new MarkerClusterer(map, markers);
             }
