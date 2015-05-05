@@ -3,8 +3,8 @@
 
 {% block body %}
     <div id="map" style="width:100%; height:70%;"> </div>
-    <br/>
     <div id="newMarker" style="visibility: hidden;">
+    <br/>
     <form action="{% url 'mainapp:fund' %}" method="get">
     <input type="hidden" name="place" value="">
     <input type="hidden" name="lat" value="">
@@ -14,10 +14,10 @@
     </button>
     </form>
     at <b id="markerinfo"></b>
+    <br/>
     </div>
     
-    <br/>
-    <div id="details" style="width:100%"></div>
+    <div id="details" style="width:100%">Click on a marker or anywhere in above map to view details</div>
 {% endblock %}
 
 {% block footer %}
@@ -68,10 +68,10 @@
             });
 
             google.maps.event.addListener(marker, 'click', function(event) {
-                displayInfo(fund, place);
                 if (newMarker != null)
                     newMarker.setVisible(false);
                 NewMarker(event.latLng);
+                displayInfo(fund, place);
             });
             return marker;
         }
@@ -87,7 +87,7 @@
             mi = document.getElementById("markerinfo");
             mi.innerHTML = location.toString();
             
-
+            $("html, body").animate({ scrollTop: $("#map").offset().top }, 500);
 
             geocoder.geocode({'latLng': location}, function(results, status) {
                 if (status == google.maps.GeocoderStatus.OK)
@@ -105,6 +105,8 @@
                 map.panTo(location);
                 //map.setZoom(19);
             }, 500);
+
+            document.getElementById("details").innerHTML = "";
         }
 
         function initialize() {
