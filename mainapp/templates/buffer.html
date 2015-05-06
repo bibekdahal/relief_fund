@@ -1,6 +1,10 @@
 {% extends "base.html" %}
 
 {% block body %}
+    <div class="card-panel z-depth-2">
+        <h5 class="center-align light-green-text text-darken-2">Unreviewed Funds</h5>
+    </div>
+
     {% for buffer in buffer_list %}
         <div class="card-panel">
             <a href="{% url 'mainapp:fund' %}?buffer={{buffer.id}} "> {{ buffer.id }}</h5></a>
