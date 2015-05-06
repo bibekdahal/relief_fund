@@ -21,10 +21,15 @@
         <div class="container">
         <a href="{% url 'mainapp:index' %}"><h1 class="header center light-green-text" style="font-size:40px;"><b>Relief-Funds</b></h1></a>
         <h5 class="center white-text"> for Nepal Earthquake 2015 </h5>
+        {% if request.session.login %}
+        <a href="{% url 'mainapp:logout' %}" class="right white-text"> Log out </a>
+        {% else %}
+        <a href="{% url 'mainapp:login' %}" class="right white-text"> Log in </a>
+        {% endif %}
         </div>
         <br/>
+        <br/>
         </header>
-        
         <br/>
         <main>
         <div class="container">

@@ -25,7 +25,7 @@ class FundView(View):
         else:
             isbuffer = False
  
-        if isbuffer and not request.session["login"]:
+        if isbuffer and not request.session.get("login",False):
             return HttpResponse("Not logged in")
        
         context = {}
@@ -63,7 +63,7 @@ class FundView(View):
         else:
             isbuffer = False
 
-        if isbuffer and not request.session["login"]:
+        if isbuffer and not request.session.get("login",False):
             return HttpResponse("Not logged in")
 
         context = {}
@@ -147,7 +147,7 @@ class Login(View):
         loggedin = request.session.get('login',False)
 
         if loggedin:
-            return  HttpResponse("loggedin")
+            return HttpResponseRedirect(reverse('mainapp:index'))
         return render(request, "login.html", context)
 
     def post(self, request):
@@ -172,7 +172,7 @@ class Login(View):
         else:
             context['adminuser'] = adminuser[0]
             request.session['login'] = True
-            return HttpResponse("loggedin")
+            return HttpResponseRedirect(reverse('mainapp:index'))
 
 
 class Logout(View):
