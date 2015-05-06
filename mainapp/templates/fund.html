@@ -61,7 +61,7 @@
             {% for itemtype in itemtypes %}
                 <div class="row">
                     <div class="input-field col s2 m1">
-                        <input id="{{forloop.counter0}}" type="checkbox" name="{{itemtype}}" value="true" />
+                        <input id="{{forloop.counter0}}" type="checkbox" name="{{itemtype}}" {% for item in items %}{% if item.type.name == itemtype.name %} checked {% endif %} {% endfor %} />
                         <label for="{{forloop.counter0}}"></label>
                     </div>
                     <div class="input-field col s10 m11">
@@ -145,6 +145,9 @@
                 document.forms[0].provider_phone.required = false;
             }
         }
+        {% if fund %}
+        document.forms[0].fundstate.value = {{ fund.state }};
+        {% endif %}
         stateChanged();
     </script>
 {% endblock %}
