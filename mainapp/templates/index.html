@@ -3,7 +3,7 @@
 
 {% block body %}
     {% if request.session.login %}
-    <a href="{% url 'mainapp:buffer' %}">Show buffers</a>
+    <a href="{% url 'mainapp:buffer' %}">Show unreviewed funds</a>
     {% endif %}
     <div id="map" style="width:100%; height:70%;"> </div>
     <div id="newMarker" style="visibility: hidden;">
