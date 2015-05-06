@@ -9,7 +9,7 @@ class ItemType(models.Model):
 
 class Provider(models.Model):
     name = models.CharField(max_length=100)
-    phone = models.IntegerField()
+    phone = models.CharField(max_length=30)
 
     def __str__(self):
         return self.name
