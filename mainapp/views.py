@@ -67,11 +67,11 @@ class FundView(View):
                     tempstring += ' '+itemtype.name
                     remarks = request.POST.get(itemtype.name+"_remarks").strip()
 
-            return HttpResponse(tempstring)
+            #return HttpResponse(tempstring)
 
             # get the provider for this fund and update it
             provider = fund_obj.provider
-            provider.name = provider_name.strip()
+            provider.name = provider_name
             provider.phone = provider_phone
             provider.save()
 
