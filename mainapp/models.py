@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 class ItemType(models.Model):
     name = models.CharField(max_length=50)
@@ -71,3 +72,9 @@ class Fund(AbstractFund):
 
 class Buffer(AbstractFund):
     fund = models.OneToOneField(Fund, null=True, blank=True, default=None)
+
+class AdminUser(models.Model):
+    user = models.OneToOneField(User)
+
+    def __str__(self):
+        return self.user.username

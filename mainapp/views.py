@@ -4,6 +4,8 @@ from django.views.generic import View
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.urlresolvers import reverse
 
+from django.contrib.auth import authenticate,login
+
 from mainapp.models import *
 
 class Index(View):
@@ -103,3 +105,44 @@ def ReviewBuffer(bufferfund):
     for it in bufferitems:
         item = Item(type=it.type, remarks=it.remarks, fund=fund)
         item.save()
+
+class Login(View):
+    
+    def get(self, request):
+        context = {}
+        loggedin = request.session.get('login',False)
+
+        if loggedin:
+            return  HttpResponse("loggedin")
+        return render(request, "login.html", context)
+
+    def post(self, request):
+        error = None
+        context = {}
+        username = request.POST.get('username','')
+        password = request.POST.get('password', '')
+
+        adminuser = None
+        if username=='' or password=='':
+            error = "username/password cannot be empty :D"
+            context['error'] = error
+            return render(request, "login.html", context)
+        else:
+            tempuser = authenticate(username=username, password=password)
+            adminuser = AdminUser.objects.filter(user=tempuser)
+
+        if len(adminuser) == 0:
+            error = "invalid username/password"
+            context['error'] = error
+            return render(request, "login.html", context)
+        else:
+            context['adminuser'] = adminuser[0]
+            request.session['login'] = True
+            return HttpResponse("loggedin")
+
+        
+
+
+
+
+
