@@ -174,5 +174,14 @@ class Login(View):
             request.session['login'] = True
             return HttpResponse("loggedin")
 
+
+class Logout(View):
+
+    def get(self, request):
+        del request.session['login']
+        return HttpResponseRedirect(reverse('mainapp:index'))
+
+    def post(self, request):
+        pass
         
 
