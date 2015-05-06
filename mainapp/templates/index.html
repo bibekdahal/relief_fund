@@ -6,25 +6,26 @@
     <div id="newMarker" style="visibility: hidden;">
     <br/>
     <div class="row">
-    <div class="col s3">
-    <form action="{% url 'mainapp:fund' %}" method="get">
-    <input type="hidden" name="place" value="">
-    <input type="hidden" name="lat" value="">
-    <input type="hidden" name="lon" value="">
-    <button class="btn waves-effect waves-light" type="submit">
-    <i class="mdi-content-add"></i>
-    New Fund
-    </button>
-    </form>
-    </div>
-    <div class="col s3">
-    <form method="get" id="updateform" style="visibility:hidden;">
-    <button class="btn waves-effect waves-light" type="submit">
-    <i class="mdi-content-add"></i>
-    Update Info
-    </button>
-    </form>
-    </div>
+        <div class="col s12 m4">
+            <form action="{% url 'mainapp:fund' %}" method="get">
+            <input type="hidden" name="place" value="">
+            <input type="hidden" name="lat" value="">
+            <input type="hidden" name="lon" value="">
+            <button class="btn waves-effect waves-light" type="submit">
+                <i class="mdi-content-add"></i>
+                New Fund
+            </button>
+            </form>
+        </div>
+
+        <div class="col s12 m4">
+            <form method="get" id="updateform" style="visibility:hidden;">
+            <button class="btn waves-effect waves-light" type="submit">
+            <i class="mdi-content-add"></i>
+            Update Info
+            </button>
+            </form>
+        </div>
     </div>
     at <b id="markerinfo"></b>
     <br/>
