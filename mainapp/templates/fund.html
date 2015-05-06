@@ -19,7 +19,7 @@
                     <label for="place_name" class="active">Name</label>
                     <input placeholder="Name" id="place_name" type="text" name="place"
                     value = "{% if place %}{{ place }}{% elif fund %}{{ fund.place }}{% endif %}"
-                    required>
+                    required pattern="\S.*\S">
                 </div>
             </div><div class="row">
                 <div class="input-field col s12">
@@ -27,7 +27,7 @@
                     <label for="place_district" class="active">District</label>
                     <input placeholder="District" id="place_district" type="text" name="district"
                     value = "{% if fund %}{{ fund.place.district }}{% endif %}"
-                    required>
+                    required pattern="\S.*\S">
                 </div>
             </div><div class="row">
                 <div class="input-field col s12">
@@ -103,7 +103,7 @@
                     <label for="provider_name" class="active">Name</label>
                     <input placeholder="Name" id="provider_name" type="text" name="provider_name" 
                         value="{% if fund and fund.provider %}{{ fund.provider.name }}{% endif %}"
-                    >
+                    pattern="\S.*\S">
                 </div>
             </div>
             <div class="row">
@@ -112,7 +112,7 @@
                     <label for="provider_phone" class="active">Phone</label>
                     <input placeholder="Phone" id="provider_phone" type="number" name="provider_phone" min="0" 
                         value = {% if fund and fund.provider %}{{ fund.provider.phone }}{% endif %}
-                    >
+                    pattern="\S.*\S">
                 </div>
             </div>
         </div>
