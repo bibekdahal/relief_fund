@@ -62,7 +62,10 @@ class AbstractFund(models.Model):
     review_state = models.IntegerField(default=UNREVIEWED, choices=REVIEW_STATES)
     
     def __str__(self):
-        return str(self.provider) + " - " + str(self.place)
+        if self.provider:
+            return str(self.provider) + " - " + str(self.place)
+        else:
+            return str(self.place)
 
     class Meta:
         abstract = True
