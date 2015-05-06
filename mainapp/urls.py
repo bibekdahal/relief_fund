@@ -8,4 +8,5 @@ urlpatterns = patterns('',
     url(r'^fund/$', views.FundView.as_view(), name="fund"),
     url(r'^fund/(?P<fund_id>[0-9]+)/$', views.FundView.as_view(), name="fund"),
     url(r'^login/$', views.Login.as_view(), name="login"),
+    url(r'^logout/$', views.Logout.as_view(), name="logout"),
 )
