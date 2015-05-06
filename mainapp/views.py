@@ -72,12 +72,9 @@ class FundView(View):
 
         if fund_id:
             fund = get_object_or_404(Fund, pk=fund_id)
-            items = Item.objects.filter(fund=fund).delete()
-            fund.provider = provider
-            fund.place = place
-            fund.state = fundstate
         else:
-            fund = Fund(provider=provider, place=place, state=fundstate)
+            fund = None
+        bufferfund = Buffer(provider=provider, place=place, state=fundstate, fund=fund)
 
         fund.save()
 
@@ -85,8 +82,24 @@ class FundView(View):
             itemtype_check = request.POST.get(itemtype.name)
             if itemtype_check:
                 remarks = request.POST.get(itemtype.name+"_remarks").strip()
-                item = Item(type=itemtype, remarks=remarks, fund=fund)
+                item = BufferItem(type=itemtype, remarks=remarks, fund=bufferfund)
                 item.save()
 
         return HttpResponseRedirect(reverse('mainapp:index'))
 
+def ReviewBuffer(bufferfund):
+    if bufferfund.fund:
+        fund = bufferfund.fund
+        fund.provider = bufferfund.provider
+        fund.place = bufferfund.place
+        fund.state = bufferfund.state
+    else:
+        fund = Fund(provider=bufferfund.provider, place=bufferfund.place, state=bufferfund.state)
+    
+    items = Item.objects.filter(fund=fund).delete()
+    fund.save()
+
+    bufferitems = BufferItem.objects.filter(fund=bufferfund)
+    for it in bufferitems:
+        item = Item(type=it.type, remarks=it.remarks, fund=fund)
+        item.save()

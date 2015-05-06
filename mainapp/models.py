@@ -30,6 +30,14 @@ class Item(models.Model):
     def __str__(self):
         return str(self.type) + ": " + str(self.remarks)
 
+class BufferItem(models.Model):
+    type = models.ForeignKey(ItemType)
+    remarks = models.TextField(blank=True, default="")
+    fund = models.ForeignKey("mainapp.Buffer")
+
+    def __str__(self):
+        return str(self.type) + ": " + str(self.remarks)
+
 class AbstractFund(models.Model):
     provider = models.ForeignKey(Provider, null=True, blank=True, default=None)
     place = models.ForeignKey(Place)
@@ -62,4 +70,4 @@ class Fund(AbstractFund):
     pass
 
 class Buffer(AbstractFund):
-    fund = models.OneToOneField(Fund, null=True, blank=True)
+    fund = models.OneToOneField(Fund, null=True, blank=True, default=None)
