@@ -183,5 +183,15 @@ class Logout(View):
 
     def post(self, request):
         pass
-        
+
+class BufferView(View):
+
+    def get(self, request):
+        context = {}
+        buffer_list = Buffer.objects.filter(review_state=0)
+        context['buffer_list'] = buffer_list
+        return render(request, 'buffer.html', context)
+
+    def post(self, request):
+        pass
 
