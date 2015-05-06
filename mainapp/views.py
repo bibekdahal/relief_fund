@@ -23,7 +23,7 @@ class FundView(View):
         context['itemtypes'] = itemtypes
 
 
-        if request.GET.get('buffer') == 1:
+        if request.GET.get('buffer') == "1":
             isbuffer = True
         else:
             isbuffer = False
@@ -81,10 +81,11 @@ class FundView(View):
             place = Place(name=place_name, district=district_name, latitude=latitude, longitude=longitude)
             place.save()
         
-        if request.GET.get('buffer') == 1:
+        if request.POST.get('buffer') == "1":
             isbuffer = True
         else:
             isbuffer = False
+
         if not isbuffer:
             if fund_id:
                 fund = get_object_or_404(Fund, pk=fund_id)
