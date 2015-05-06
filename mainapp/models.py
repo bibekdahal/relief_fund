@@ -30,7 +30,7 @@ class Item(models.Model):
     def __str__(self):
         return str(self.type) + ": " + str(self.remarks)
 
-class Fund(models.Model):
+class AbstractFund(models.Model):
     provider = models.ForeignKey(Provider, null=True, blank=True, default=None)
     place = models.ForeignKey(Place)
     
@@ -54,3 +54,12 @@ class Fund(models.Model):
     
     def __str__(self):
         return str(self.provider) + " - " + str(self.place)
+
+    class Meta:
+        abstract = True
+
+class Fund(AbstractFund):
+    pass
+
+class Buffer(AbstractFund):
+    fund = models.OneToOneField(Fund, null=True, blank=True)
