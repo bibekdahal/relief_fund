@@ -92,8 +92,7 @@
         </div>
         <table>
 
-        <tr id="provider" class="card-panel">
-        <td>
+        <div id="provider" class="card-panel">
             <div class="row">
                 <div class="col s12">
                     <h6>PROVIDER</h6>
@@ -104,7 +103,7 @@
                     <i class="mdi-action-account-circle prefix"></i>
                     <label for="provider_name" class="active">Name</label>
                     <input placeholder="Name" id="provider_name" type="text" name="provider_name" 
-                        value="{% if fund and fund.provider %} {{ fund.provider.name }} {% endif %}"
+                        value="{% if fund and fund.provider %}{{ fund.provider.name }}{% endif %}"
                     >
                 </div>
             </div>
@@ -113,15 +112,11 @@
                     <i class="mdi-communication-phone prefix"></i>
                     <label for="provider_phone" class="active">Phone</label>
                     <input placeholder="Phone" id="provider_phone" type="number" name="provider_phone" min="0" 
-                        value = {% if fund and fund.provider %} {{ fund.provider.phone }} {% endif %}
+                        value = {% if fund and fund.provider %}{{ fund.provider.phone }}{% endif %}
                     >
                 </div>
             </div>
-            </td>
-        </tr>
 
-        <tr>
-        <td>
         <button class="btn waves-effect waves-light" type="submit" name="action">
             <i class="mdi-content-add"></i>
             Submit
@@ -136,11 +131,11 @@
     <script>
         function stateChanged() {
             if (document.forms[0].fundstate.value == 0) {
-                document.getElementById("provider").style.visibility = "visible"
+                document.getElementById("provider").style.display= "block"
                 document.forms[0].provider_name.required = true;
                 document.forms[0].provider_phone.required = true;
             } else {
-                document.getElementById("provider").style.visibility = "collapse";
+                document.getElementById("provider").style.display= "none";
                 document.forms[0].provider_name.required = false;
                 document.forms[0].provider_phone.required = false;
             }
