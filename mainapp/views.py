@@ -118,8 +118,10 @@ class FundView(View):
 
         if isbuffer:
             ReviewBuffer(bufferfund)
-
-        return HttpResponseRedirect(reverse('mainapp:index'))
+        if isbuffer:
+            return HttpResponseRedirect(reverse('mainapp:buffer'))
+        else:
+            return HttpResponseRedirect(reverse('mainapp:index'))
 
 def ReviewBuffer(bufferfund):
     if bufferfund.fund:
