@@ -22,6 +22,13 @@ class FundView(View):
         itemtypes = ItemType.objects.all()
         context['itemtypes'] = itemtypes
 
+
+        if request.GET.get('buffer') == 1:
+            isbuffer = True
+        else:
+            isbuffer = False
+        context['isbuffer'] = isbuffer
+
         if not fund_id:
             place = request.GET.get('place')
             lat = request.GET.get('lat')
@@ -34,8 +41,13 @@ class FundView(View):
                 context['lon'] = float(lon)
             return render(request, 'fund.html', context)
         else:
-            fund = get_object_or_404(Fund, pk=fund_id)
-            items = Item.objects.filter(fund=fund)
+            if isbuffer:
+                fund = get_object_or_404(Buffer, pk=fund_id)
+                items = BufferItem.objects.filter(fund=fund)
+            else:
+                fund = get_object_or_404(Fund, pk=fund_id)
+                items = Item.objects.filter(fund=fund)
+
             context['fund'] = fund
             context['items'] = items
             return render(request, 'fund.html', context)
@@ -68,15 +80,25 @@ class FundView(View):
         if not place:
             place = Place(name=place_name, district=district_name, latitude=latitude, longitude=longitude)
             place.save()
-
-
-        if fund_id:
-            fund = get_object_or_404(Fund, pk=fund_id)
+        
+        if request.GET.get('buffer') == 1:
+            isbuffer = True
         else:
-            fund = None
-        bufferfund = Buffer(provider=provider, place=place, state=fundstate, fund=fund)
+            isbuffer = False
+        if not isbuffer:
+            if fund_id:
+                fund = get_object_or_404(Fund, pk=fund_id)
+            else:
+                fund = None
+            bufferfund = Buffer(provider=provider, place=place, state=fundstate, fund=fund)
+        else:
+            bufferfund = get_object_or_404(Buffer, pk=fund_id)
+            bufferfund.state = fundstate
+            bufferfund.provider = provider
+            bufferfund.place = place
+            BufferItem.objects.filter(fund=bufferfund).delete()
 
-        fund.save()
+        bufferfund.save()
 
         for itemtype in itemtype_list:
             itemtype_check = request.POST.get(itemtype.name)
@@ -84,6 +106,9 @@ class FundView(View):
                 remarks = request.POST.get(itemtype.name+"_remarks").strip()
                 item = BufferItem(type=itemtype, remarks=remarks, fund=bufferfund)
                 item.save()
+
+        if isbuffer:
+            ReviewBuffer(bufferfund)
 
         return HttpResponseRedirect(reverse('mainapp:index'))
 
@@ -103,3 +128,6 @@ def ReviewBuffer(bufferfund):
     for it in bufferitems:
         item = Item(type=it.type, remarks=it.remarks, fund=fund)
         item.save()
+
+    bufferitems.delete()
+    bufferfund.delete()

@@ -1,12 +1,13 @@
 {% extends 'base.html' %}
 
 {% block body %}
-{% if fund %}
-<form method="POST" action="{% url 'mainapp:fund' fund_id=fund.id %}">
-{% else %}
-<form method="POST" action="{% url 'mainapp:fund' %}">
-{% endif %}
-    {% csrf_token %}
+    {% if fund %}
+    <form method="POST" action="{% url 'mainapp:fund' fund_id=fund.id %}">
+    {% else %}
+    <form method="POST" action="{% url 'mainapp:fund' %}">
+    {% endif %}
+        {% csrf_token %}
+        <input type="hidden" name="buffer" value={% if isbuffer %}"1"{% else %}"0"{% endif %}>
 
         <div id="place" class="card-panel">
             <div class="row">
@@ -116,7 +117,7 @@
                 </div>
             </div>
         </div>
-        <button class="btn waves-effect waves-light" type="submit" name="action">
+        <button class="btn waves-effect waves-light" type="submit">
             <i class="mdi-content-add"></i>
             Submit
         </button>
