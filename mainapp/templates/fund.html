@@ -1,8 +1,13 @@
 {% extends 'base.html' %}
 
 {% block body %}
+{% if fund %}
 <form method="POST" action="{% url 'mainapp:fund' fund_id=fund.id %}">
+{% else %}
+<form method="POST" action="{% url 'mainapp:fund' %}">
+{% endif %}
     {% csrf_token %}
+
         <div id="place" class="card-panel">
             <div class="row">
                 <div class="col s12">
@@ -13,9 +18,7 @@
                     <i class="mdi-maps-navigation prefix"></i>
                     <label for="place_name" class="active">Name</label>
                     <input placeholder="Name" id="place_name" type="text" name="place"
-                    value = "{% if place %} {{ place }}
-                            {% elif fund %} {{ fund.place }}
-                            {% endif %}"
+                    value = "{% if place %}{{ place }}{% elif fund %}{{ fund.place }}{% endif %}"
                     required>
                 </div>
             </div><div class="row">
@@ -23,8 +26,7 @@
                     <i class="mdi-maps-navigation prefix"></i>
                     <label for="place_district" class="active">District</label>
                     <input placeholder="District" id="place_district" type="text" name="district"
-                    value = "{% if fund %} {{ fund.place.district }}
-                            {% endif %}"
+                    value = "{% if fund %}{{ fund.place.district }}{% endif %}"
                     required>
                 </div>
             </div><div class="row">
@@ -64,7 +66,9 @@
                     </div>
                     <div class="input-field col s10 m11">
                         <label class="active">{{ itemtype }}</label>
-                        <input placeholder="Remarks" type="text" name="{{itemtype}}_remarks">
+                        <input placeholder="Remarks" type="text" name="{{itemtype}}_remarks"
+                            value = "{% for item in items %}{% if item.type.name == itemtype.name %}{{ item.remarks }}{% endif %}{% endfor %}"
+                        />
                     </div>
                 </div>
             {% endfor %}
@@ -86,8 +90,10 @@
                 </div>
             </div>
         </div>
+        <table>
 
-        <div id="provider" class="card-panel">
+        <tr id="provider" class="card-panel">
+        <td>
             <div class="row">
                 <div class="col s12">
                     <h6>PROVIDER</h6>
@@ -98,8 +104,7 @@
                     <i class="mdi-action-account-circle prefix"></i>
                     <label for="provider_name" class="active">Name</label>
                     <input placeholder="Name" id="provider_name" type="text" name="provider_name" 
-                        value="{% if fund and fund.provider %} {{ fund.provider.name }}
-                                {% endif %}"
+                        value="{% if fund and fund.provider %} {{ fund.provider.name }} {% endif %}"
                     >
                 </div>
             </div>
@@ -108,26 +113,39 @@
                     <i class="mdi-communication-phone prefix"></i>
                     <label for="provider_phone" class="active">Phone</label>
                     <input placeholder="Phone" id="provider_phone" type="number" name="provider_phone" min="0" 
-                        value = {% if fund and fund.provider %} {{ fund.provider.phone }}
-                                {% endif %}
+                        value = {% if fund and fund.provider %} {{ fund.provider.phone }} {% endif %}
                     >
                 </div>
             </div>
-        </div>
+            </td>
+        </tr>
 
-
+        <tr>
+        <td>
         <button class="btn waves-effect waves-light" type="submit" name="action">
             <i class="mdi-content-add"></i>
             Submit
         </button>
+        </td>
+        </tr>
+        </table>
     </form>
 {% endblock %}
 
 {% block footer %}
     <script>
         function stateChanged() {
-            alert(document.forms[0].fundstate);
+            if (document.forms[0].fundstate.value == 0) {
+                document.getElementById("provider").style.visibility = "visible"
+                document.forms[0].provider_name.required = true;
+                document.forms[0].provider_phone.required = true;
+            } else {
+                document.getElementById("provider").style.visibility = "collapse";
+                document.forms[0].provider_name.required = false;
+                document.forms[0].provider_phone.required = false;
+            }
         }
+        stateChanged();
     </script>
 {% endblock %}
 
