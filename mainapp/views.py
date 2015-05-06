@@ -20,16 +20,19 @@ class Index(View):
 class FundView(View):
 
     def get(self, request, fund_id=None):
-        context = {}
-        itemtypes = ItemType.objects.all()
-        context['itemtypes'] = itemtypes
-
-
         if request.GET.get('buffer') == "1":
             isbuffer = True
         else:
             isbuffer = False
+ 
+        if isbuffer and not request.session["login"]:
+            return HttpResponse("Not logged in")
+       
+        context = {}
+        itemtypes = ItemType.objects.all()
+
         context['isbuffer'] = isbuffer
+        context['itemtypes'] = itemtypes
 
         if not fund_id:
             place = request.GET.get('place')
@@ -55,6 +58,14 @@ class FundView(View):
             return render(request, 'fund.html', context)
 
     def post(self, request, fund_id=None):
+        if request.POST.get('buffer') == "1":
+            isbuffer = True
+        else:
+            isbuffer = False
+
+        if isbuffer and not request.session["login"]:
+            return HttpResponse("Not logged in")
+
         context = {}
         itemtype_list = ItemType.objects.all()
 
@@ -82,11 +93,6 @@ class FundView(View):
         if not place:
             place = Place(name=place_name, district=district_name, latitude=latitude, longitude=longitude)
             place.save()
-        
-        if request.POST.get('buffer') == "1":
-            isbuffer = True
-        else:
-            isbuffer = False
 
         if not isbuffer:
             if fund_id:
@@ -169,7 +175,4 @@ class Login(View):
             return HttpResponse("loggedin")
 
         
-
-
-
 
