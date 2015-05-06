@@ -131,8 +131,9 @@ def ReviewBuffer(bufferfund):
     for it in bufferitems:
         item = Item(type=it.type, remarks=it.remarks, fund=fund)
         item.save()
+    bufferitems.delete()
+    bufferfund.delete()
 
-<<<<<<< HEAD
 class Login(View):
     
     def get(self, request):
@@ -172,8 +173,3 @@ class Login(View):
 
 
 
-
-=======
-    bufferitems.delete()
-    bufferfund.delete()
->>>>>>> 1d1a850bd8c1edb7e344b1c413d97d0a50b20d93
