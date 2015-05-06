@@ -190,6 +190,11 @@ class BufferView(View):
 
     def get(self, request):
         context = {}
+
+        loggedin = request.session.get('login',False)
+        if not loggedin:
+            return HttpResponseRedirect(reverse('mainapp:index'))
+
         buffer_list = Buffer.objects.filter(review_state=0)
         context['buffer_list'] = buffer_list
         return render(request, 'buffer.html', context)
