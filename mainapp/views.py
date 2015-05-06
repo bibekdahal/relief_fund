@@ -44,12 +44,15 @@ class FundView(View):
         context = {}
         provider_name = request.POST.get('provider_name')
         provider_phone = request.POST.get('provider_phone')
-        provider = Provider.objects.filter(name=provider_name, phone=provider_phone)
-        if provider:
-            provider = provider[0]
-        if not provider:
-            provider = Provider(name=provider_name, phone=provider_phone)
-            provider.save()
+        if not provider_name is None and not provider_name == "":
+            provider = Provider.objects.filter(name=provider_name, phone=provider_phone)
+            if provider:
+                provider = provider[0]
+            if not provider:
+                provider = Provider(name=provider_name, phone=provider_phone)
+                provider.save()
+        else:
+            provider = None
 
         place_name = request.POST.get('place')
         district_name = request.POST.get('district')

@@ -5,5 +5,6 @@ from . import views
 
 urlpatterns = patterns('',
     url(r'^$', views.Index.as_view(), name="index"),
-    url(r'^fund/(?P<fund_id>[0-9]+)?/$', views.FundView.as_view(), name="fund"),
+    url(r'^fund/$', views.FundView.as_view(), name="fund"),
+    url(r'^fund/(?P<fund_id>[0-9]+)r$', views.FundView.as_view(), name="fund"),
 )

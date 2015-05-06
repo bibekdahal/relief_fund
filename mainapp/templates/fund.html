@@ -78,7 +78,7 @@
             </div>
             <div class="row">
                 <div class="col s12">
-                    <select class="browser-default" name="fundstate">
+                    <select class="browser-default" name="fundstate" onchange="stateChanged()">
                         <option value="0">Provided</option>
                         <option value="1" selected="selected">Needed</option>
                         <option value="2">Urgently Needed</option>
@@ -98,7 +98,7 @@
                     <i class="mdi-action-account-circle prefix"></i>
                     <label for="provider_name" class="active">Name</label>
                     <input placeholder="Name" id="provider_name" type="text" name="provider_name" 
-                        value="{% if fund %} {{ fund.provider }}
+                        value="{% if fund and fund.provider %} {{ fund.provider.name }}
                                 {% endif %}"
                     >
                 </div>
@@ -108,7 +108,7 @@
                     <i class="mdi-communication-phone prefix"></i>
                     <label for="provider_phone" class="active">Phone</label>
                     <input placeholder="Phone" id="provider_phone" type="number" name="provider_phone" min="0" 
-                        value = {% if fund %} {{ fund.provider.phone }}
+                        value = {% if fund and fund.provider %} {{ fund.provider.phone }}
                                 {% endif %}
                     >
                 </div>
@@ -125,6 +125,9 @@
 
 {% block footer %}
     <script>
+        function stateChanged() {
+            alert(document.forms[0].fundstate);
+        }
     </script>
 {% endblock %}
 
