@@ -108,6 +108,8 @@
             
             $("html, body").animate({ scrollTop: $("#map").offset().top }, 500);
 
+            document.forms[0].lat.value = location.lat();
+            document.forms[0].lon.value = location.lng();
             geocoder.geocode({'latLng': location}, function(results, status) {
                 if (status == google.maps.GeocoderStatus.OK)
                     if (results[0]) {
@@ -115,8 +117,6 @@
                         mi.innerHTML +=  ": " + place;
             
                         document.forms[0].place.value = place;
-                        document.forms[0].lat.value = location.lat();
-                        document.forms[0].lon.value = location.lng();
                     }
             });
 
